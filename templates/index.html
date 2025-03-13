@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Port Scanner</title>
+    <style>
+      body {
+        background: #f5f5f5;
+        font-family: Arial, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+      }
+      .container {
+        background: #fff;
+        padding: 2em;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        text-align: center;
+      }
+      input[type="text"] {
+        width: 300px;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+      }
+      input[type="submit"] {
+        padding: 10px 20px;
+        margin-top: 10px;
+        border: none;
+        background: #007bff;
+        color: #fff;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+      input[type="submit"]:hover {
+        background: #0056b3;
+      }
+      .results {
+        margin-top: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Port Scanner</h1>
+      <!-- Form to accept the target IP/domain -->
+      <form action="/scan" method="post">
+        <input
+          type="text"
+          name="target"
+          placeholder="Enter IP or domain"
+          required
+        />
+        <br />
+        <input type="submit" value="Scan" />
+      </form>
+      <!-- Display error message if any -->
+      {% if error %}
+      <p style="color: red">{{ error }}</p>
+      {% endif %}
+      <!-- Display scan results -->
+      {% if target %}
+      <div class="results">
+        <h2>Scan Results for {{ target }}</h2>
+        {% if open_ports and open_ports|length > 0 %}
+        <p>Open Ports:</p>
+        <ul>
+          {% for port in open_ports %}
+          <li>Port {{ port }} is open.</li>
+          {% endfor %}
+        </ul>
+        {% else %}
+        <p>No open ports detected.</p>
+        {% endif %}
+      </div>
+      {% endif %}
+    </div>
+  </body>
+</html>
